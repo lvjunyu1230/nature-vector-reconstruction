@@ -42,10 +42,16 @@ jobs:
           input_file="$(find input -maxdepth 1 -type f \
             \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
             | sort | head -n 1)"
-          test -n "$input_file"
+          if [ -z "$input_file" ]; then
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No reference image found. Add a PNG/JPG/WebP file to input/ and run this workflow again." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "found=true" >> "$GITHUB_OUTPUT"
           echo "path=$input_file" >> "$GITHUB_OUTPUT"
 
       - name: Trace reference to SVG
+        if: steps.reference.outputs.found == 'true'
         run: |
           mkdir -p outputs
           python tools/reconstruct.py \
@@ -55,12 +61,15 @@ jobs:
             --report outputs/reconstruction_report.md
 
       - name: Run SVG QA
+        if: steps.reference.outputs.found == 'true'
         run: python tools/qa.py outputs/reconstructed.svg --report outputs/qa_report.md
 
       - name: Export PDF, EPS and PNG
+        if: steps.reference.outputs.found == 'true'
         run: python tools/export.py outputs/reconstructed.svg --outdir outputs
 
       - name: Package outputs
+        if: steps.reference.outputs.found == 'true'
         run: |
           cd outputs
           zip -r reconstruction-bundle.zip \
@@ -68,6 +77,7 @@ jobs:
             reconstruction_report.md qa_report.md
 
       - name: Upload reconstruction bundle
+        if: steps.reference.outputs.found == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: reconstruction-bundle
