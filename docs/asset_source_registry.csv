@@ -1,0 +1,28 @@
+category,source,url,license,best_for,priority,caution
+scientific objects,Bioicons,https://bioicons.com/,"Per asset: CC0, CC BY, CC BY-SA, MIT and others","biology, chemistry, lab objects, animals, plants",A,Check the individual icon page; preserve attribution for CC BY/SA
+scientific objects,Servier Medical Art,https://smart.servier.com/,CC BY 4.0,"medical, anatomy, biological objects",A,Attribution required
+scientific objects,Reactome Icon Library,https://reactome.org/icon-lib,CC BY 4.0,"molecular, cellular and pathway symbols",A,"Attribute CSHL, OICR and EBI"
+scientific objects,PhyloPic,https://www.phylopic.org/,"Per silhouette; includes Public Domain, CC BY, CC BY-SA and NC variants",organism silhouettes,A,Use the Public Domain filter where possible
+generic vectors,OpenClipart,https://openclipart.org/,CC0 / public domain,generic objects and simple scenes,A,Keep the item page and author record
+generic vectors,Wikimedia Commons,https://commons.wikimedia.org/,"Per file: Public Domain, CC0, CC BY, CC BY-SA and others","scientific diagrams, devices, SVG artwork",A,Verify the file page; avoid NC/ND
+generic vectors,Openverse,https://openverse.org/,Per source item,searching openly licensed media across repositories,A,Return to the original source page before use
+generic vectors,FreeSVG.org,https://freesvg.org/,CC0 / public domain per platform statement,generic SVG clipart,A,Save the source page
+generic vectors,SVG Repo,https://www.svgrepo.com/,Varies by item/author,broad icon and vector search,A,Do not assume one site-wide license
+generic vectors,LibreClipart,https://libreclipart.org/,CC0 per platform statement,generic clipart,A,Keep source metadata
+structural symbols,Lucide,https://lucide.dev/,ISC,lightweight outline structural symbols,A,Use sparingly and normalize stroke
+structural symbols,Tabler Icons,https://tabler.io/icons,MIT,"network, database, device and process symbols",A,Use a single weight
+structural symbols,Phosphor,https://phosphoricons.com/,MIT,"outline, regular and duotone structural symbols",A,Do not mix multiple weights
+structural symbols,Material Symbols,https://fonts.google.com/icons,Apache 2.0,general structural/device symbols,B,Prefer Outlined family
+structural symbols,Heroicons,https://heroicons.com/,MIT,simple outline and solid symbols,B,Not a replacement for scientific object geometry
+structural symbols,Bootstrap Icons,https://icons.getbootstrap.com/,MIT,general data/device symbols,B,Use only as a small supplement
+structural symbols,Iconoir,https://iconoir.com/,MIT,fine-line abstract symbols,B,Normalize to panel line width
+structural symbols,Remix Icon,https://remixicon.com/,Version-specific Remix Icon License,general devices and data symbols,B,Record the exact release and license
+meta search,Iconify,https://icon-sets.iconify.design/,Depends on the selected icon set,searching and exporting multiple open icon sets,B,Iconify license does not replace set license
+software/brand,Font Awesome Free,https://fontawesome.com/,Icons CC BY 4.0; fonts OFL; code MIT,common software and device symbols,B,Record the icon license and attribution
+software/brand,Devicon,https://devicon.dev/,MIT,programming and software logos,B,Trademark rules still apply
+software/brand,Simple Icons,https://simpleicons.org/,Project CC0; individual icon/trademark status can differ,brand and software logos,B,Use only when the brand is scientifically necessary
+special style,OpenMoji,https://openmoji.org/,CC BY-SA 4.0,"people, gestures and object cues",C,Not preferred for the final Nature scientific-object style
+conditional,OpenStax,https://openstax.org/,Usually CC BY-NC-SA 4.0,reference diagrams and educational structures,C,Publication/commercial use may require permission
+conditional,The Noun Project,https://thenounproject.com/,"CC BY, subscription or commercial licenses",general icons,C,Free use usually requires attribution
+conditional,Flaticon,https://www.flaticon.com/,Free plan with attribution; paid plans vary,general icons,C,Not an open-source default; save license proof
+conditional,BioRender,https://www.biorender.com/,Plan-dependent publication/content license,"composition reference, not extracted assets",C,Do not extract standalone assets outside permitted terms

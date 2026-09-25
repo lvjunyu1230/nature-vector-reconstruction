@@ -1,0 +1,75 @@
+name: Reconstruct vector figure
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "input/**"
+      - "config/**"
+      - "tools/**"
+      - "requirements.txt"
+      - ".github/workflows/reconstruct.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Inkscape and export tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y inkscape ghostscript imagemagick zip
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Find reference image
+        id: reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          input_file="$(find input -maxdepth 1 -type f \
+            \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
+            | sort | head -n 1)"
+          test -n "$input_file"
+          echo "path=$input_file" >> "$GITHUB_OUTPUT"
+
+      - name: Trace reference to SVG
+        run: |
+          mkdir -p outputs
+          python tools/reconstruct.py \
+            --input "${{ steps.reference.outputs.path }}" \
+            --output outputs/reconstructed.svg \
+            --style config/style.yaml \
+            --report outputs/reconstruction_report.md
+
+      - name: Run SVG QA
+        run: python tools/qa.py outputs/reconstructed.svg --report outputs/qa_report.md
+
+      - name: Export PDF, EPS and PNG
+        run: python tools/export.py outputs/reconstructed.svg --outdir outputs
+
+      - name: Package outputs
+        run: |
+          cd outputs
+          zip -r reconstruction-bundle.zip \
+            reconstructed.svg reconstructed.pdf reconstructed.eps reconstructed.png \
+            reconstruction_report.md qa_report.md
+
+      - name: Upload reconstruction bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: reconstruction-bundle
+          path: outputs/reconstruction-bundle.zip
+          if-no-files-found: error

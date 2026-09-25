@@ -1,0 +1,43 @@
+# Default style for flat scientific schematics. Change these values per figure,
+# then commit the file so the run remains reproducible.
+input:
+  # Quantization removes anti-aliased color noise before tracing.
+  quantize_colors: 24
+  # Upscale only when the source is larger; it never invents scientific detail.
+  max_dimension: 2400
+trace:
+  colormode: color
+  hierarchical: stacked
+  mode: spline
+  filter_speckle: 4
+  color_precision: 6
+  layer_difference: 16
+  corner_threshold: 60
+  length_threshold: 4
+  max_iterations: 10
+  splice_threshold: 45
+  path_precision: 3
+output:
+  paper: "#FFFEFC"
+  add_background: true
+  # Set the final physical width; the height follows the image aspect ratio.
+  page_width_mm: 180
+  # nearest = map fills to the palette below; keep = preserve quantized colors.
+  palette_mode: nearest
+  palette:
+    - "#263238"  # ink
+    - "#58656B"  # mid
+    - "#738087"  # frame
+    - "#E58A84"  # red
+    - "#C95552"  # red-dark
+    - "#7EA8D1"  # blue
+    - "#2E5C91"  # blue-dark
+    - "#8DC487"  # green
+    - "#4F934E"  # green-dark
+    - "#C8D0D3"  # grey
+    - "#9AA7AC"  # grey-dark
+    - "#F7E0E1"  # region-red
+    - "#DCEAF5"  # region-blue
+    - "#E0EFD9"  # region-green
+    - "#F4F6F4"  # outer
+    - "#FFFEFC"  # paper

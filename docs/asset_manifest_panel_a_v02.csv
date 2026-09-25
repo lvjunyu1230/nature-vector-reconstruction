@@ -1,0 +1,6 @@
+asset_file,role,creator_or_source,source_url,license,used_in,modification_notes
+bio_mouse.svg,scientific object,Bioicons / Ben Murrell,https://github.com/duerrsimon/bioicons/blob/main/static/icons/cc-0/Animals/Ben-Murrell/Mouse.svg,CC0,panel_a_v02,recoloured to panel palette; outline unified
+bio_avocet.svg,scientific object,Bioicons / EwaOz,https://github.com/duerrsimon/bioicons/blob/main/static/icons/cc-0/Animals/EwaOz/avocet.svg,CC0,panel_a_v02,source circle removed; palette normalized
+bio_flower.svg,scientific object,Bioicons / Frédéric Bouché,https://github.com/duerrsimon/bioicons/blob/main/static/icons/cc-by-4.0/Plants_Algae/Frédéric_Bouché/Arabidopsis_Flower.svg,CC BY 4.0,panel_a_v02,source border and gradients removed; attribution required
+bio_image.svg,generic vector object,Bioicons / OpenClipart,https://openclipart.org/,Public Domain / CC0,panel_a_v02,source text/gradient/background removed; exact item page should be retained if found
+tabler_network.svg,structural symbol,Tabler Icons,https://tabler.io/icons,MIT,panel_a_v02,single small symbol; stroke normalized
