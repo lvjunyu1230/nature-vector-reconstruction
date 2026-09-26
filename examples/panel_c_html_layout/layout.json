@@ -1,0 +1,33 @@
+{
+  "title": "Panel c — HTML + inline SVG layout test",
+  "fixed_svg": "panel_c_hybrid_spacious.svg",
+  "canvas": {"width": 1190, "height": 410},
+  "columns": "1.7fr 1.42fr .78fr .94fr",
+  "note": "HTML/CSS controls the four-column grid and spacing. Each scientific object remains an inline SVG group and can be refined independently.",
+  "modules": [
+    {
+      "id": "hands",
+      "title": "Hands and tactile memory",
+      "svg": "modules/hands.svg",
+      "placement": {"x": 0, "y": 0, "scale": 0.9}
+    },
+    {
+      "id": "encoding",
+      "title": "Encoding and retrieval",
+      "svg": "modules/encoding.svg",
+      "placement": {"x": 430, "y": 0, "scale": 0.85}
+    },
+    {
+      "id": "cortex",
+      "title": "Somatosensory cortex",
+      "svg": "modules/cortex.svg",
+      "placement": {"x": 800, "y": 55, "scale": 0.86}
+    },
+    {
+      "id": "output",
+      "title": "Estimation and groundtruth",
+      "svg": "modules/output.svg",
+      "placement": {"x": 970, "y": 0, "scale": 0.84}
+    }
+  ]
+}

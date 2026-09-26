@@ -2,11 +2,26 @@
 
 **适用范围**：panel a v02 以及后续 Fig. 1、Fig. 5、Fig. 6 等 Nature Sensors 风格的概念图和技术示意图。
 
+## 当前推荐路线：HTML + inline SVG
+
+当前项目不再把 Inkscape 作为主要排版工具。推荐先用 HTML/CSS 的网格系统安排模块、列宽、间距和响应式版本，再把科学对象作为独立 inline SVG 模块嵌入页面。Inkscape、Illustrator 或 Affinity Designer 只用于最后的路径清理、字体检查和投稿前 QA。
+
+```text
+Figure Contract
+→ 黑白 Wireframe
+→ HTML/CSS 网格排版
+→ 独立素材矢量化
+→ inline SVG 组装
+→ 静态 SVG/PDF QA
+```
+
+HTML 只负责布局，不负责替代 SVG 绘制手部、器件、脑区、波形和箭头。仓库中的 [`tools/build_html_layout.py`](../tools/build_html_layout.py) 和 [`examples/panel_c_html_layout/`](../examples/panel_c_html_layout/) 提供了当前 Panel c 的完整示例。
+
 **当前确定的素材策略：**
 
-> **Bioicons 负责对象形状；Inkscape 统一填色和轮廓；Lucide 或 Tabler 只负责少量结构符号。**
+> **Bioicons 负责对象形状；inline SVG 保持对象可编辑；HTML/CSS 负责模块排版；Lucide 或 Tabler 只负责少量结构符号。**
 
-这套策略的目标不是把不同网站的图标直接拼在一起，而是把素材当作“几何骨架”，再由 Inkscape 统一视觉语言。
+这套策略的目标不是把不同网站的图标直接拼在一起，而是把素材当作“几何骨架”，再由统一的 SVG 样式和 HTML 网格建立同一套视觉语言。
 
 ---
 
@@ -171,9 +186,9 @@ asset_id,role,source_site,source_url,creator,license,license_url,downloaded_at,r
 
 清洗后仍应保留路径和基本 SVG 几何。不要把素材先转成位图再描摹。
 
-### Step 6：在 Inkscape 中统一视觉语言
+### Step 6：在 inline SVG 中统一视觉语言
 
-对每一类素材按同一套规则处理：
+对每一类素材按同一套规则处理。对象可以在 HTML 页面中作为独立 SVG 模块管理，也可以在 Inkscape 中打开后继续精修：
 
 1. 导入清洗后的 SVG；
 2. 在 Objects/Layers 面板中给对象命名；
@@ -184,7 +199,9 @@ asset_id,role,source_site,source_url,creator,license,license_url,downloaded_at,r
 7. 把源素材的渐变改成纯色；
 8. 删除明显比全图更细或更粗的内部线；
 9. 通过缩放测试对象在最终版面中的可读性；
-10. 把对象放在正确的 layer 中，而不是只靠视觉位置堆叠。
+10. 把对象放在正确的 layer/group 中，而不是只靠视觉位置堆叠。
+
+HTML 路线中，模块级位置由 `layout.json` 和 CSS Grid 控制；对象内部的填色、轮廓、箭头和文字仍然由 SVG 属性控制。
 
 ### Step 7：按层组装 panel
 
@@ -437,11 +454,10 @@ PY
 5. 再从 Lucide/Tabler/Phosphor 找最多 1–3 个结构符号；
 6. 下载原始 SVG，登记 manifest 和许可证；
 7. 清除源背景、渐变、滤镜、文字和 wordmark；
-8. 在 Inkscape 中统一填色、轮廓、线宽、圆角和端点；
-9. 把规律性几何和所有文字直接在 Inkscape 中重建；
-10. 关闭 reference layer，运行结构检查；
-11. 导出 SVG/PDF/EPS/PNG；
-12. 在最终尺寸检查可读性，并把源文件、素材、manifest、许可证和 hash 一起归档。
+8. 把对象拆成独立 SVG 模块，并在 `layout.json` 中定义 viewBox、列宽和 placement；
+9. 用 HTML/CSS Grid 组装模块，调整留白、对齐和跨模块连接线；
+10. 生成静态 SVG，运行结构检查；
+11. 必要时在 Inkscape/Illustrator/Affinity 中做路径、字体和图层 QA；
+12. 导出 SVG/PDF/EPS/PNG，并把源文件、素材、manifest、许可证和 hash 一起归档。
 
-这套顺序的核心是：**网站负责提供可追溯的几何素材，Inkscape 负责把它们变成同一个图的视觉语言，脚本和 manifest 负责让下一次可以复现。**
-
+这套顺序的核心是：**网站负责提供可追溯的几何素材，HTML/CSS 负责模块排版，inline SVG 负责科学图形，Inkscape/Illustrator/Affinity 负责最终矢量 QA，脚本和 manifest 负责让下一次可以复现。**

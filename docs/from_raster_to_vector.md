@@ -35,11 +35,34 @@ python3 tools/qa.py outputs/reconstructed.svg \
 
 检查失败时，不要继续导出。先在 SVG 中找到残留的 `<image>`、滤镜、外链或空画布，再重新生成或手动清洗。
 
-## D. Inkscape 最后整理
+## D. HTML + inline SVG 排版
+
+对于投稿级科学示意图，不要把自动描摹得到的整张 SVG 直接当作终稿。先按科学语义把对象拆成独立模块，再使用 `tools/build_html_layout.py` 通过 `layout.json` 组装：
+
+```bash
+python3 tools/build_html_layout.py \
+  --manifest examples/panel_c_html_layout/layout.json \
+  --output outputs/panel_c_html_layout.html \
+  --static-svg outputs/panel_c_html_layout.svg
+```
+
+HTML/CSS 负责：
+
+- panel 和模块的顺序；
+- 列宽、间距和响应式缩放；
+- 多个版式版本的快速比较。
+
+inline SVG 负责：
+
+- 科学对象和器件路径；
+- 波形、坐标轴、节点和箭头；
+- 标签、图例和可编辑文字。
+
+## E. Inkscape/Illustrator 最后整理
 
 在 Inkscape 中：
 
-1. 打开 `reconstructed.svg`；
+1. 打开 `reconstructed.svg`，或打开 HTML manifest 生成的静态 SVG；
 2. 把 `vectorized-reference` 层重命名为 `Reference geometry`；
 3. 解除需要编辑的 group，删除碎片和不符合科学含义的轮廓；
 4. 用原生文字重打标题、标签和图例；
@@ -50,7 +73,7 @@ python3 tools/qa.py outputs/reconstructed.svg \
 
 对于 Nature 风格的 scientific schematic，自动描摹适合给出对象轮廓，不能替代语义重建。`docs/scientific_figure_reproduction_workflow.md` 记录了 Panel A 的完整拆分、素材搜索、清洗、调色和出口流程。
 
-## E. 导出
+## F. 导出
 
 ```bash
 python3 tools/export.py outputs/reconstructed.svg --outdir outputs

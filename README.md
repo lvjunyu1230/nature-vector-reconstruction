@@ -1,113 +1,138 @@
 # Nature Vector Reconstruction
 
-把一张 AI 生成的参考图转换为**可编辑的 SVG**，再由 Inkscape 导出为高清 PDF、EPS 和 PNG。仓库把参考图当作视觉输入，输出只保留路径和基本形状，适合在 Inkscape 中继续改色、改轮廓、拆层和重建文字。
+把 AI 生成的参考图转换为**可编辑的科学矢量图**。当前仓库的默认路线是：
 
-当前推荐的视觉策略仍然是：**Bioicons 负责科学对象形状；Inkscape 统一改色和轮廓；Lucide 或 Tabler 只负责少量结构符号。** 27 个可复用素材来源见 [`docs/asset_source_registry.md`](docs/asset_source_registry.md)。
+> **Figure Contract → HTML/CSS 网格排版 → inline SVG 科学对象 → SVG/PDF QA**
 
-## 先说清楚“无 AI 痕迹”
+HTML 负责模块位置、列宽、间距和版本迭代；inline SVG 负责手部、器件、波形、箭头、文字和图例。这样可以快速调整排版，同时保留可编辑的矢量对象。
 
-本仓库把它定义成可检查的文件条件：
+## 为什么从 Inkscape 路线改为 HTML + SVG
 
-- 最终 SVG 不含 `<image>`、PNG/JPG、外部图片、AI prompt 或生成器元数据；
-- 不保留渐变、滤镜、阴影和外链引用；
-- 主要内容由 `<path>` 和基础几何形状组成；
-- 通过 `tools/qa.py` 检查后，SVG 可以独立打开和编辑。
+| 项目 | 原路线：Inkscape 固定坐标 | 当前路线：HTML + inline SVG |
+|---|---|---|
+| 排版 | 在一个 SVG 画布中手动移动对象 | 用 CSS Grid 调整列宽、间距和模块顺序 |
+| 迭代 | 每次修改都要重新调整多个坐标 | 修改 CSS 或 manifest 即可快速比较版本 |
+| 响应式预览 | 较弱 | 浏览器中可以缩放和重排 |
+| 对象编辑 | 很强 | SVG 对象仍然可编辑 |
+| 跨模块箭头 | 精确，但手工维护 | 需要把连接线作为独立 SVG 模块管理 |
+| 投稿输出 | 直接导出 SVG/PDF/EPS | 需要静态 SVG/PDF 导出和最终 QA |
 
-自动矢量化会忠实地把参考图中的纹理、错字或错误结构变成路径，因此它不是“自动保证科学正确”的一键投稿图。正式图应在 Inkscape 中做最后的语义清理：重打文字、重画箭头和坐标轴、删掉碎片、给对象分层并记录素材许可。
+Inkscape/Illustrator 不再承担主要排版工作，而作为最终的矢量清理、字体检查和投稿前 QA 工具保留。原来的自动描摹路线仍通过 `legacy-all` 提供，适合从栅格参考图提取几何轮廓，不再作为投稿级终稿的默认路线。
 
-## 你不需要本地安装 Inkscape
-
-有三种运行方式：
-
-1. **GitHub Codespaces（推荐）**：仓库自带 `.devcontainer`，创建 Codespace 后会自动启动浏览器版 Inkscape 桌面；Codespaces 转发私有的 6080 端口后，在浏览器打开 Inkscape。终端中可运行 `make setup && make all`。
-2. **GitHub Actions**：把参考图提交到 `input/`，Actions 会安装 Inkscape、完成矢量化、质检和导出，并把结果作为 artifact 提供下载。
-3. **Docker**：使用根目录 `Dockerfile`，适合在任何有 Docker 的电脑或服务器运行。
-
-## 最短路径
+## 最短路径：HTML + inline SVG
 
 ```bash
-# 在仓库根目录
-cp /path/to/ai-reference.png input/reference.png
+# 安装 Python 依赖（HTML 构建器使用 lxml；自动矢量化另外使用 VTracer）
 make setup
-make all
+
+# 构建当前示例的 HTML + SVG 排版页面
+make html
+# 输出：HTML 页面、静态 SVG 和 html_layout_qa_report.md
+
+# 或者直接指定自己的 manifest
+make html HTML_MANIFEST=examples/panel_c_html_layout/layout.json \
+  HTML_OUTPUT=outputs/my_layout.html
+```
+
+打开 `outputs/panel_c_html_layout.html`，可以在浏览器中比较固定坐标 SVG 和 HTML/CSS 网格版本。
+
+## 当前 HTML 示例
+
+[`examples/panel_c_html_layout/`](examples/panel_c_html_layout/) 包含：
+
+- `layout.json`：模块、列宽和固定 SVG 的配置；
+- `panel_c_html_layout.html`：浏览器中的对照页面；
+- `panel_c_html_layout.svg`：按 manifest placement 生成的静态矢量组合；
+- `modules/*.svg`：手部、编码、脑区和估计/真值模块；
+- `panel_c_hybrid_spacious.svg`：原 Inkscape 固定坐标版本，作为对照；
+- `tools/build_html_layout.py`：通用 HTML + inline SVG 构建器。
+
+修改自己的图时，先把每个语义模块保存为独立 SVG，再在 `layout.json` 中调整模块顺序、列宽和间距。
+
+## 投稿级完整流程
+
+1. **分析参考图**：提取科学问题、模块关系和信息层级；参考图只用于观察，不进入最终图。
+2. **Figure Contract**：锁定画布、字体、颜色、线宽、箭头语义和 panel 结构。
+3. **黑白 Wireframe**：先确定网格、对齐、间距和连接线，不先画复杂对象。
+4. **素材选择**：Bioicons 负责对象形状；Lucide/Tabler 只用于少量结构符号；独特对象逐个生成或手工绘制。
+5. **单素材矢量化**：去背景、颜色量化、路径简化、轮廓清理，删除 AI 纹理和位图。
+6. **HTML/CSS 排版**：用 CSS Grid 控制模块位置、列宽、留白和不同版本对比。
+7. **inline SVG 组装**：文字、波形、箭头、节点和几何图形保留为原生 SVG 对象。
+8. **最终精修**：必要时在 Inkscape、Illustrator 或 Affinity Designer 中校正路径、字体、线宽和层级。
+9. **QA**：检查无 `<image>`、无外链、无滤镜/渐变/mask、无越界、无文字重叠和歧义箭头。
+10. **导出归档**：保存 SVG、PDF、EPS、高清 PNG、素材 manifest、提示词、脚本和 QA 报告。
+
+## 原栅格参考路线（兼容保留）
+
+如果需要先从单张 PNG/JPG/WebP 提取颜色区域和对象轮廓：
+
+```bash
+cp /path/to/reference.png input/reference.png
+make reconstruct
+make qa
+make export
 ```
 
 结果在 `outputs/`：
 
 ```text
-reconstructed.svg             # 可编辑矢量母版
-reconstructed.pdf             # Inkscape 导出，适合排版
-reconstructed.eps             # Inkscape 导出，兼容传统投稿流程
-reconstructed.png             # 高清预览
-reconstruction_report.md      # 输入 hash、参数、路径数和工具版本
-qa_report.md                  # 无栅格/无外链检查
+reconstructed.svg
+reconstructed.pdf
+reconstructed.eps
+reconstructed.png
+reconstruction_report.md
+qa_report.md
 ```
 
-如果只想先生成 SVG，不需要 Inkscape：
+该路线现在命名为：
 
 ```bash
-make reconstruct
-make qa
+make legacy-all
 ```
 
-`make export` 和 `make all` 会明确要求 Inkscape；在本地没有 Inkscape 时，改用 Codespaces、Actions 或 Docker。
+自动描摹只用于提取初始几何。文字、箭头、坐标轴、图例和科学关系仍应在 SVG/HTML 版式中重建。
 
-## GitHub Actions 用法
+## GitHub Actions
 
-1. 把一张 `reference.png`、`reference.jpg`、`reference.jpeg` 或 `reference.webp` 放进 `input/` 并提交。
-2. 打开仓库的 **Actions → Reconstruct vector figure → Run workflow**，或等待 push 触发。
-3. 在运行页面下载 `reconstruction-bundle` artifact。
+仓库包含两个工作流：
 
-Actions 只使用 `input/` 中的第一张图片。不要把未公开的研究图片提交到公共仓库。
+- **HTML Layout Preview**：构建 `examples/panel_c_html_layout/layout.json`，不需要本地 Inkscape；适合快速比较版式。
+- **Reconstruct vector figure**：旧的栅格参考 → VTracer → SVG/PDF/EPS/PNG 流程；适合作为几何提取和兼容路线。
 
-## 在浏览器中使用 Inkscape
+在 GitHub Actions 页面运行 HTML 工作流后，可下载 `html-layout-bundle` artifact。
 
-1. 在 GitHub 仓库点击 **Code → Codespaces → Create codespace**。
-2. 等待初始化完成，Codespaces 会自动转发 `6080` 端口并打开浏览器版 Inkscape。
-3. 上传图片到 `input/`，在 Codespaces 终端运行 `make setup && make reconstruct`。
-4. 在 Inkscape 中打开 `outputs/reconstructed.svg`，完成文字、箭头、图层和对象形状整理；再运行 `make export` 生成投稿文件。
+## “无 AI 痕迹”的文件定义
 
-端口设为 **private**，VNC 服务只监听容器本机地址。停止桌面可运行 `bash tools/stop_inkscape_desktop.sh`。
-
-## 调整风格
-
-修改 [`config/style.yaml`](config/style.yaml)：
-
-- `input.quantize_colors`：颜色数量；平面科学图一般 12–32；
-- `input.max_dimension`：送入描摹的最大边；
-- `trace.*`：VTracer 的轮廓、碎片过滤和路径精度；
-- `output.palette_mode`：`nearest` 把颜色归一到 Nature 风格调色板，`keep` 保留量化后的颜色；
-- `output.palette`：按项目换成自己的 palette。
-
-图里若有文字、箭头、数据点和规则几何，不要依赖自动描摹来保留它们。把参考图放在 Inkscape 的锁定参考层，使用原生文字、线段、箭头、圆、矩形重建，再把自动描摹层当作对象形状参考。
+- SVG 中没有 `<image>`、base64、data URI 或外部图片引用；
+- 没有 `filter`、`linearGradient`、`radialGradient`、`pattern`、`mask`；
+- 主要内容由 `path` 和基础几何组成；
+- 文字保留为可编辑文本；
+- 生成器、prompt 和源图片路径不写入最终 SVG；
+- QA 通过后仍需人工检查科学语义和素材许可。
 
 ## 目录
 
 ```text
-config/style.yaml                  # 可复用的色板和描摹参数
-tools/reconstruct.py               # 参考图 → 清洗后的 SVG
-tools/qa.py                        # SVG 结构检查
-tools/export.py                    # Inkscape → PDF/EPS/PNG
-tools/start_inkscape_desktop.sh    # Codespaces 浏览器桌面
-.github/workflows/reconstruct.yml  # 无本地工具时的云端运行
-.devcontainer/                     # Codespaces 环境
-input/                             # 放一张参考图
-outputs/                           # 运行结果（默认不提交）
-docs/asset_source_registry.md      # 27 个素材来源和许可提醒
-docs/scientific_figure_reproduction_workflow.md  # 完整复现工作流
-examples/panel_a/                  # Bioicons + Tabler 的示例母版
+config/style.yaml                         # 调色板和描摹参数
+tools/build_html_layout.py                # HTML + inline SVG 构建器
+tools/reconstruct.py                      # 旧的栅格 → SVG 几何提取
+tools/qa.py                               # SVG 结构检查
+tools/export.py                           # Inkscape → PDF/EPS/PNG
+.github/workflows/html-layout.yml         # HTML 版式工作流
+.github/workflows/reconstruct.yml         # 旧的栅格参考工作流
+docs/layout_tools_comparison.md           # 排版工具对比
+docs/scientific_figure_reproduction_workflow.md  # 完整科学插图流程
+docs/asset_source_registry.md             # 开源素材来源和许可提醒
+examples/panel_c_html_layout/             # HTML + SVG 示例
+examples/panel_a/                          # Bioicons + Tabler 示例
+input/                                     # 栅格参考图
+outputs/                                   # 构建结果（默认不提交）
 ```
 
 ## 素材许可
 
-不要把“能下载”当成“可以发表”。每个素材都要在 [`docs/asset_manifest_template.csv`](docs/asset_manifest_template.csv) 记录来源、作者、许可证、许可证网址、下载日期、hash 和修改方式。默认优先：Public Domain/CC0、MIT、ISC、Apache 2.0；CC BY/CC BY-SA 要按要求署名或继续采用相应许可；NC/ND、订阅和平台条款要先确认发表及商业范围。完整规则见 [`docs/license_policy.md`](docs/license_policy.md)。
-
-## 示例
-
-[`examples/panel_a/panel_a_bioicons_v02.svg`](examples/panel_a/panel_a_bioicons_v02.svg) 是此前 Panel A 的可编辑母版：Bioicons 提供对象形状，Inkscape 统一颜色和轮廓，Tabler 只提供一个结构符号。示例中的 Arabidopsis flower 需要保留 CC BY 4.0 署名，详情见同目录的 source manifest。
-
-![Panel A example](examples/panel_a/panel_a_bioicons_v02.png)
+不要把“能下载”当成“可以发表”。每个素材都要在 [`docs/asset_manifest_template.csv`](docs/asset_manifest_template.csv) 记录来源、作者、许可证、许可证网址、下载日期、hash 和修改方式。完整规则见 [`docs/license_policy.md`](docs/license_policy.md)。
 
 ## 代码许可
 
-本仓库的脚本采用 MIT。第三方素材仍然服从其各自许可证；请阅读 `NOTICE.md` 和每项素材的 manifest。
+本仓库脚本采用 MIT。第三方素材仍然服从各自许可证，请阅读 `NOTICE.md` 和每项素材的 manifest。

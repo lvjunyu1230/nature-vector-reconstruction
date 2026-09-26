@@ -20,8 +20,11 @@ git push -u origin main
 
 推送后，在 GitHub 仓库中：
 
-1. **Code → Codespaces → Create codespace**，获得浏览器版 Inkscape；
-2. 把 AI 参考图上传到 `input/` 并提交，触发 Actions；
-3. 从 Actions artifact 下载 SVG/PDF/EPS/PNG。
+1. 打开 **Actions → HTML layout preview → Run workflow**，生成 HTML 对照页和静态 SVG；
+2. 在 `examples/*/layout.json` 中调整模块顺序、列宽、placement 和间距；
+3. 从 Actions 的 `html-layout-bundle` artifact 下载 HTML、SVG 和 QA 报告；
+4. 如需最终路径清理，再用 Codespaces 中的 Inkscape 或本地 Illustrator/Affinity 打开静态 SVG。
+
+旧的 `Reconstruct vector figure` workflow 仍然保留，用于从单张栅格参考图提取初始几何，不再是投稿级终稿的默认入口。
 
 不要把 GitHub access token 写进仓库、README 或 workflow 文件。

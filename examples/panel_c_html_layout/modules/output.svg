@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="100%" viewBox="950 0 240 310">
+  <defs>
+    <marker id="arrow-navy" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#30427f"/></marker>
+    <marker id="arrow-magenta" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a83b7a"/></marker>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#27323b"/></marker>
+  </defs>
+  <title>Estimation and groundtruth</title>
+  <g id="estimation-groundtruth-layout" transform="translate(110 10)"><g id="estimation-groundtruth" inkscape:groupmode="layer" inkscape:label="Estimation and groundtruth">
+    <path d="M958 8 L1059 137 L958 267 L857 137 Z" fill="#f8e6f0"/>
+    <path d="M922 64 C931 61 939 31 946 30 C955 28 955 72 964 72 C975 72 979 37 989 40 C998 43 1001 79 1010 81" fill="none" stroke="#a83b7a" stroke-width="1.45"/>
+    <path d="M922 71 C932 68 938 41 947 38 C954 37 958 76 965 76 C974 77 981 45 988 49 C997 54 1001 82 1010 85" fill="none" stroke="#30427f" stroke-width="1.25" stroke-dasharray="4 3"/>
+    <path d="M962 108 H989" stroke="#a83b7a" stroke-width="1.2" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
+    <text x="870" y="112" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#4b5156">Estimation</text>
+    <text x="1000" y="112" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#4b5156">Groundtruth</text>
+    <circle cx="931" cy="169" r="26" fill="#ffffff" opacity="0.5"/>
+    <circle cx="931" cy="169" r="8" fill="none" stroke="#a83b7a" stroke-width="1.2"/>
+    <circle cx="896" cy="148" r="3.5" fill="#a83b7a"/>
+    <circle cx="974" cy="151" r="3.5" fill="#30427f"/>
+    <circle cx="934" cy="205" r="3.5" fill="#a83b7a"/>
+    <path d="M896 148 L931 169 L974 151 M931 169 L934 205" fill="none" stroke="#a83b7a" stroke-width="1"/>
+    <path d="M896 148 L931 169 L974 151 M931 169 L934 205" fill="none" stroke="#30427f" stroke-width="1" stroke-dasharray="3 3" opacity="0.8"/>
+    <text x="905" y="154" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#4b5156">Thumb</text>
+    <text x="987" y="154" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#4b5156">Index</text>
+    <text x="987" y="167" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#4b5156">Finger</text>
+    <text x="931" y="241" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#4b5156">Palm</text>
+  </g>
+
+  </g>
+</svg>

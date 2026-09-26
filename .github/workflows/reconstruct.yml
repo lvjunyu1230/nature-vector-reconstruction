@@ -1,4 +1,4 @@
-name: Reconstruct vector figure
+name: Legacy raster-to-vector extraction
 
 on:
   workflow_dispatch:

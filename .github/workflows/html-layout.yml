@@ -1,0 +1,50 @@
+name: HTML layout preview
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "examples/**"
+      - "tools/build_html_layout.py"
+      - ".github/workflows/html-layout.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  html-layout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build HTML and static SVG
+        run: |
+          mkdir -p outputs
+          python tools/build_html_layout.py \
+            --manifest examples/panel_c_html_layout/layout.json \
+            --output outputs/panel_c_html_layout.html \
+            --static-svg outputs/panel_c_html_layout.svg
+
+      - name: Run SVG QA
+        run: |
+          python tools/qa.py outputs/panel_c_html_layout.svg \
+            --report outputs/html_layout_qa_report.md
+
+      - name: Package HTML layout bundle
+        run: |
+          cd outputs
+          zip -r html-layout-bundle.zip \
+            panel_c_html_layout.html panel_c_html_layout.svg html_layout_qa_report.md
+
+      - name: Upload HTML layout bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-layout-bundle
+          path: outputs/html-layout-bundle.zip
+          if-no-files-found: error

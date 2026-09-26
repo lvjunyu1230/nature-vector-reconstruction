@@ -3,8 +3,11 @@ INPUT ?= $(firstword $(wildcard input/*.png input/*.jpg input/*.jpeg input/*.web
 OUTDIR ?= outputs
 SVG ?= $(OUTDIR)/reconstructed.svg
 REPORT ?= $(OUTDIR)/reconstruction_report.md
+HTML_MANIFEST ?= examples/panel_c_html_layout/layout.json
+HTML_OUTPUT ?= $(OUTDIR)/panel_c_html_layout.html
+HTML_SVG ?= $(OUTDIR)/panel_c_html_layout.svg
 
-.PHONY: setup reconstruct qa export all clean
+.PHONY: setup reconstruct qa export legacy-all html all clean
 
 setup:
 	$(PYTHON) -m pip install -r requirements.txt
@@ -20,7 +23,16 @@ qa: reconstruct
 export: qa
 	$(PYTHON) tools/export.py "$(SVG)" --outdir $(OUTDIR)
 
-all: export
+# The default route now builds the HTML + inline-SVG layout surface.
+# The previous raster-trace/Inkscape route remains available as legacy-all.
+html:
+	mkdir -p $(OUTDIR)
+	$(PYTHON) tools/build_html_layout.py --manifest "$(HTML_MANIFEST)" --output "$(HTML_OUTPUT)" --static-svg "$(HTML_SVG)"
+	$(PYTHON) tools/qa.py "$(HTML_SVG)" --report "$(OUTDIR)/html_layout_qa_report.md"
+
+all: html
+
+legacy-all: export
 
 clean:
 	find $(OUTDIR) -type f ! -name .gitkeep -delete

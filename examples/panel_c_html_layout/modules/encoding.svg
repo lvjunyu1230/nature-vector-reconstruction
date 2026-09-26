@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="100%" viewBox="450 0 390 360">
+  <defs>
+    <marker id="arrow-navy" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#30427f"/></marker>
+    <marker id="arrow-magenta" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a83b7a"/></marker>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#27323b"/></marker>
+  </defs>
+  <title>Encoding and retrieval</title>
+  <g id="skin-deformation-layout" transform="translate(35 10)"><g id="skin-deformation" inkscape:groupmode="layer" inkscape:label="Skin deformation">
+    <path d="M457 161 C505 151 526 150 565 157" fill="none" stroke="#30427f" stroke-width="1.4" marker-end="url(#arrow-navy)"/>
+    <path d="M457 193 C507 186 532 183 567 189" fill="none" stroke="#a83b7a" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow-magenta)"/>
+    <text x="471" y="141" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#4b5156">Skin deformation</text>
+  </g>
+
+  </g>
+  <g id="mechanoreceptors-layout" transform="translate(30 10)"><g id="mechanoreceptors" inkscape:groupmode="layer" inkscape:label="Mechanoreceptors">
+    <path d="M575 128 C579 121 584 123 587 132 C591 141 594 141 598 130 C602 119 607 120 611 131 C615 142 620 144 624 132 C628 120 633 120 637 130 C641 140 646 141 651 129 C656 117 661 121 664 133 C668 143 672 143 678 132 C684 120 689 122 693 131 C697 141 700 143 704 136 L704 192 L575 192 Z" fill="#f39a74" opacity="0.92"/>
+    <path d="M575 173 C598 170 616 175 636 172 C657 168 676 175 704 170 L704 192 L575 192 Z" fill="#f18c67"/>
+    <path d="M584 171 C584 157 590 150 596 150 C603 151 605 162 606 168 C608 155 615 148 621 150 C628 153 629 163 630 169 C633 157 640 149 646 151 C654 154 653 166 655 170 C658 158 666 152 672 154 C680 158 677 169 680 173 C685 161 693 156 698 159 C703 162 701 170 703 173" fill="none" stroke="#d23440" stroke-width="2" stroke-linecap="round"/>
+    <path d="M578 188 H703" stroke="#30427f" stroke-width="1.3"/>
+    <circle cx="591" cy="143" r="4" fill="#30427f"/><circle cx="620" cy="146" r="4" fill="#30427f"/><circle cx="649" cy="146" r="4" fill="#30427f"/><circle cx="678" cy="146" r="4" fill="#30427f"/>
+    <path d="M591 143 C591 135 588 128 585 124 M620 146 C620 136 614 128 609 123 M649 146 C649 136 645 128 641 123 M678 146 C678 136 681 128 686 123" fill="none" stroke="#30427f" stroke-width="1.2"/>
+    <text x="580" y="223" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#4b5156">Mechanoreceptors</text>
+  </g>
+
+  </g>
+  <g id="sensory-encoding-top-layout" transform="translate(30 8)"><g id="sensory-encoding-top" inkscape:groupmode="layer" inkscape:label="Sensory encoding and storage">
+    <text x="572" y="28" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#4b5156">Sensory encoding</text>
+    <path d="M575 50 H698 M575 80 H698" stroke="#30427f" stroke-width="1.2"/>
+    <path d="M580 42 V60 M588 39 V63 M597 44 V58 M605 38 V64 M614 43 V59 M622 39 V63 M631 44 V58 M640 38 V64 M649 43 V59 M658 39 V63 M667 44 V58 M676 38 V64 M685 43 V59" stroke="#30427f" stroke-width="1.15"/>
+    <path d="M580 72 V88 M588 69 V91 M597 75 V85 M605 70 V90 M614 74 V86 M622 70 V90 M631 75 V85 M640 69 V91 M649 74 V86 M658 70 V90 M667 75 V85 M676 69 V91 M685 74 V86" stroke="#30427f" stroke-width="1.15"/>
+    <path d="M636 94 V104" stroke="#30427f" stroke-width="1.2" marker-end="url(#arrow-navy)"/>
+    <path d="M708 52 C722 61 724 65 737 68 M708 82 C722 73 724 69 737 67" fill="none" stroke="#30427f" stroke-width="1.2"/>
+    <path d="M737 67 C754 72 769 88 780 110" stroke="#30427f" stroke-width="1.2" marker-end="url(#arrow-navy)" fill="none"/>
+    <text x="731" y="43" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#59638b">Storage</text>
+  </g>
+
+  </g>
+  <g id="sensory-encoding-bottom-layout" transform="translate(30 15)"><g id="sensory-encoding-bottom" inkscape:groupmode="layer" inkscape:label="Sensory retrieval">
+    <path d="M575 263 H700 M575 293 H700" stroke="#a83b7a" stroke-width="1.1" opacity="0.85"/>
+    <path d="M584 253 V272 M591 248 V277 M599 257 V268 M606 250 V275 M614 254 V271 M622 246 V279 M630 257 V268 M638 251 V274 M646 255 V270 M654 247 V278 M662 258 V267 M670 250 V275 M678 254 V271 M686 248 V277" stroke="#a83b7a" stroke-width="1"/>
+    <path d="M584 283 V302 M591 279 V306 M599 288 V297 M606 281 V304 M614 285 V300 M622 278 V307 M630 288 V297 M638 282 V303 M646 286 V299 M654 279 V306 M662 289 V296 M670 282 V303 M678 286 V300 M686 280 V305" stroke="#a83b7a" stroke-width="1"/>
+    <text x="580" y="326" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#4b5156">Sensory encoding</text>
+    <path d="M637 196 V241" stroke="#a83b7a" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow-magenta)"/>
+    <path d="M710 278 H745 C760 278 772 265 780 250" stroke="#a83b7a" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow-magenta)" fill="none"/>
+    <text x="731" y="264" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#a83b7a">Retrieval</text>
+  </g>
+
+  </g>
+</svg>
